@@ -1,0 +1,67 @@
+/* filepath: /d:/Einar Naim/Documents/WEBII/mi-proyecto/src/app/components/producto/producto.component.css */
+.titulo-centrado {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .productos {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .producto {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .producto img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .producto h3 {
+    font-size: 1.2em;
+    margin: 8px 0;
+  }
+  
+  .producto p {
+    font-size: 1em;
+    color: #555;
+  }
+  
+  .producto button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .producto button:hover {
+    background-color: #0056b3;
+  }
+  
+  .carrito-button {
+    display: block;
+    margin: 20px auto;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .carrito-button:hover {
+    background-color: #218838;
+  }
