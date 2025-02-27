@@ -22,13 +22,11 @@ export class CarritoService{
 
     generarXML(): string {
         let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<recibo>\n';
-    
-        this.carrito.forEach((producto, index) => {
-          xml += ` <producto id="${producto.id}" >\n`;
-          xml += `  <nombre>${producto.nombre}</nombre>\n`;
-          xml += ` </producto>\n` ;
+        this.carrito.forEach((producto) => {
+            xml += ` <producto id="${producto.id}" >\n`;
+            xml += `  <nombre>${producto.nombre}</nombre>\n`;
+            xml += ` </producto>\n`;
         });
-    
         xml += '</recibo>';
         return xml;
     }

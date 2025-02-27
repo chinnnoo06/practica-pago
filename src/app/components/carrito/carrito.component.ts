@@ -11,20 +11,20 @@ import { CarritoService } from '../../services/carrito.service';
   styleUrl: './carrito.component.css'
 })
 export class CarritoComponent {
+  carrito: any[] = [];
+  recibo: string = ''; // Variable para almacenar el recibo
 
-  carrito: any[]=[];
   constructor(private carritoService: CarritoService) {}
-    ngOnInit(){
-      this.carrito=this.carritoService.obtenerCarrito();
-    }
-    eliminarProducto (index: number){
+
+  ngOnInit() {
+      this.carrito = this.carritoService.obtenerCarrito();
+  }
+
+  eliminarProducto(index: number) {
       this.carritoService.eliminarProducto(index);
-    }
-  
-    generarXML(){
-      this.carritoService.generarXML();
-    }
+  }
 
-
-
+  generarXML() {
+      this.recibo = this.carritoService.generarXML(); // Almacena el recibo generado
+  }
 }

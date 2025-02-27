@@ -1,14 +1,20 @@
 <p>Carrito de compras</p>
 
 <div *ngIf="carrito.length > 0">
-  <ul>
-    <li *ngFor="let producto of carrito; let i = index">
-      <h3>{{ producto.nombre }} - ${{ producto.precio }}</h3>
-      <button (click)="eliminarProducto(i)">Eliminar</button>
-    </li>
-  </ul>
+    <ul>
+        <li *ngFor="let producto of carrito; let i = index">
+            <h3>{{ producto.nombre }} - ${{ producto.precio }}</h3>
+            <button (click)="eliminarProducto(i)">Eliminar</button>
+        </li>
+    </ul>
 
-  <button (click)="generarXML()">Recibo</button>
+    <button (click)="generarXML()">Recibo</button>
 </div>
 
 <p *ngIf="carrito.length === 0">El carrito está vacío</p>
+
+<!-- Mostrar el recibo generado -->
+<div *ngIf="recibo">
+    <h3>Recibo:</h3>
+    <pre>{{ recibo }}</pre> <!-- Usar <pre> para mantener el formato del XML -->
+</div>
