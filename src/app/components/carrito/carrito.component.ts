@@ -8,7 +8,8 @@ import { CarritoService } from '../../services/carrito.service';
   standalone:true,
   imports: [CommonModule],
   templateUrl: './carrito.component.html',
-  styleUrl: './carrito.component.css'
+  styleUrls: ['./carrito.component.css']
+
 })
 export class CarritoComponent {
   carrito: any[] = [];
@@ -26,5 +27,9 @@ export class CarritoComponent {
 
   generarXML() {
       this.recibo = this.carritoService.generarXML(); // Almacena el recibo generado
+  }
+
+  calcularTotal() {
+    return this.carrito.reduce((total, producto) => total + producto.precio, 0);
   }
 }

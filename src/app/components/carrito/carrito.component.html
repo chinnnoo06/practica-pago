@@ -1,20 +1,33 @@
-<p>Carrito de compras</p>
+<div class="carrito-container">
+    <h2 class="carrito-titulo">Carrito de compras</h2>
 
-<div *ngIf="carrito.length > 0">
-    <ul>
-        <li *ngFor="let producto of carrito; let i = index">
-            <h3>{{ producto.nombre }} - ${{ producto.precio }}</h3>
-            <button (click)="eliminarProducto(i)">Eliminar</button>
-        </li>
-    </ul>
+    <div class="carrito-contenido" *ngIf="carrito.length > 0">
+        <ul class="carrito-lista">
+            <li class="carrito-item" *ngFor="let producto of carrito; let i = index">
+                <div class="producto-info">
+                    <span class="producto-nombre">{{ producto.nombre }}</span>
+                    <span class="producto-precio">${{ producto.precio }}</span>
+                </div>
+                <button class="eliminar-button" (click)="eliminarProducto(i)">Eliminar</button>
+            </li>
+        </ul>
 
-    <button (click)="generarXML()">Recibo</button>
-</div>
+        <div class="carrito-resumen">
+            <div class="carrito-total">
+                <span>Total:</span>
+                <span>${{ calcularTotal() }}</span>
+            </div>
+            <button class="recibo-button" (click)="generarXML()">Generar Recibo</button>
+        </div>
+    </div>
 
-<p *ngIf="carrito.length === 0">El carrito está vacío</p>
+    <p *ngIf="carrito.length === 0" class="carrito-vacio">
+        <span class="carrito-vacio-icon">🛒</span>
+        El carrito está vacío
+    </p>
 
-<!-- Mostrar el recibo generado -->
-<div *ngIf="recibo">
-    <h3>Recibo:</h3>
-    <pre>{{ recibo }}</pre> <!-- Usar <pre> para mantener el formato del XML -->
+    <div *ngIf="recibo" class="recibo">
+        <h3 class="recibo-titulo">Recibo</h3>
+        <pre class="recibo-contenido">{{ recibo }}</pre>
+    </div>
 </div>
