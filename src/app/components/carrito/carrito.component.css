@@ -1,42 +1,68 @@
 /* Contenedor principal con mejor estructura */
+p,
+span,
+h2,
+h3{
+    font-family: sans-serif;
+}
 .carrito-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 2rem auto;
-    padding: 1.5rem;
+
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
 }
 
-/* Título con mejor posicionamiento */
+.header-carrito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+    background-color: #202123;
+    
+}
+.volver {
+    position: absolute;
+    left: 1rem;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.volver:hover{
+    color: #9f9898;
+}
+
+
+.contenedor-info{
+    padding: 1rem;
+}
+
+
 .carrito-titulo {
     text-align: center;
-    margin: -1.5rem -1.5rem 1.5rem -1.5rem;
-    padding: 1rem;
-    background-color: #007bff;
     color: white;
-    border-radius: 10px 10px 0 0;
     font-weight: 600;
     letter-spacing: 0.5px;
 }
 
-/* Lista de productos mejorada */
 .carrito-lista {
     list-style-type: none;
     padding: 0;
     margin: 0 0 1.5rem 0;
 }
 
-/* Cada producto con mejor acomodo */
 .carrito-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
+    margin-top: 1rem;
     margin-bottom: 0.8rem;
     background-color: #f8f9fa;
     border-radius: 8px;
-    border-left: 4px solid #007bff;
     transition: all 0.2s ease;
 }
 
@@ -45,7 +71,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Información del producto mejorada */
 .producto-info {
     display: flex;
     flex-direction: column;
@@ -60,7 +85,7 @@
 
 .producto-precio {
     font-weight: 600;
-    color: #28a745;
+    color: #555;
 }
 
 /* Botones mejorados */
@@ -94,11 +119,12 @@
     font-weight: 600;
 }
 
-.recibo-button {
-    background-color: #007bff;
+.recibo-button,
+.descargar-button {
+    background-color: #202123;
     color: white;
     border: none;
-    padding: 0.8rem 1.5rem;
+    padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -106,7 +132,8 @@
 }
 
 .recibo-button:hover {
-    background-color: #0069d9;
+    background-color: #aeb2b7;
+    color: #202123;
 }
 
 /* Carrito vacío mejorado */
@@ -129,12 +156,11 @@
     padding: 1rem;
     background-color: #f8f9fa;
     border-radius: 8px;
-    border-left: 4px solid #28a745;
 }
 
 .recibo-titulo {
     margin-top: 0;
-    color: #28a745;
+    color: #202123;
     font-size: 1.2rem;
     margin-bottom: 0.8rem;
 }
