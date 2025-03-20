@@ -1,62 +1,105 @@
 import { Injectable } from "@angular/core";
 import { Producto } from "../models/producto";
+import { ProductoService } from './producto.service'; // Asegúrate de importar el ProductoService
 
 @Injectable({
-    providedIn:'root'
+  providedIn: 'root'
 })
-
 export class CarritoService {
-    private carrito: Producto[] = [];
+  private carrito: Producto[] = [];
 
-    agregarProducto(producto: Producto) {
-        this.carrito.push(producto);
+  constructor(private productoService: ProductoService) {
+    // Cargar el carrito desde localStorage si está disponible
+    const carritoGuardado = localStorage.getItem('carrito');
+    if (carritoGuardado) {
+      this.carrito = JSON.parse(carritoGuardado);
     }
+  }
 
-    obtenerCarrito(): Producto[] {
-        return this.carrito;
+  // Agregar un producto al carrito
+  agregarProducto(producto: Producto) {
+    // Verificamos si el producto ya está en el carrito
+    const productoExistente = this.carrito.find(p => p.id === producto.id);
+    
+    if (productoExistente) {
+      // Si el producto ya existe, incrementamos la cantidad
+      productoExistente.cantidad += 1;
+    } else {
+      // Si el producto no está en el carrito, lo agregamos con cantidad 1
+      producto.cantidad = 1;
+      this.carrito.push(producto);
     }
+  
+    this.guardarCarrito(); // Guardamos el carrito actualizado en el localStorage
+  }
 
-    eliminarProducto(index: number) {
-        if (index >= 0 && index < this.carrito.length) {
-            this.carrito.splice(index, 1);
-        }
+  // Obtener el carrito desde localStorage
+  obtenerCarrito(): Producto[] {
+    return this.carrito;
+  }
+
+  // Eliminar un producto del carrito
+  eliminarProducto(index: number) {
+    if (index >= 0 && index < this.carrito.length) {
+      this.carrito.splice(index, 1);
+      this.guardarCarrito(); // Guardamos el carrito actualizado
     }
+  }
 
-    calcularSubtotal(): number {
-        return this.carrito.reduce((total, producto) => total + producto.precio, 0);
-    }
+  // Calcular el subtotal del carrito
+  calcularSubtotal(): number {
+    return this.carrito.reduce((total, producto) => total + producto.precio, 0);
+  }
 
-    calcularIVA(): number {
-        const subtotal = this.calcularSubtotal();
-        return subtotal * 0.16; // Asumiendo un IVA del 16%
-    }
+  // Calcular el IVA
+  calcularIVA(): number {
+    return this.calcularSubtotal() * 0.16; // IVA del 16%
+  }
 
-    calcularTotal(): number {
-        return this.calcularSubtotal() + this.calcularIVA();
-    }
+  // Calcular el total
+  calcularTotal(): number {
+    return this.calcularSubtotal() + this.calcularIVA();
+  }
 
-    generarXML(): string {
-        let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<recibo>\n';
-        
-        // Añadir productos al XML
-        this.carrito.forEach((producto) => {
-            xml += ` <producto id="${producto.id}" >\n`;
-            xml += `  <nombre>${producto.nombre}</nombre>\n`;
-            xml += `  <precio>${producto.precio}</precio>\n`;
-            xml += ` </producto>\n`;
-        });
+  // Generar el XML del recibo
+  generarXML(): string {
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<compra>\n';
+    
+    // Añadir productos al XML utilizando la cantidad real
+    this.carrito.forEach((producto) => {
+      xml +=   `<producto id="${producto.id}" cantidad="${producto.cantidad}">\n`;
+      xml +=     `<nombre>${producto.nombre}</nombre>\n`;
+      xml +=     `<precio>${producto.precio}</precio>\n`;
+      xml +=   `</producto>\n`;
+    });
+  
+    const subtotal = this.calcularSubtotal();
+    const iva = this.calcularIVA();
+    const total = this.calcularTotal();
+  
+    xml +=   `<subtotal>${subtotal.toFixed(2)}</subtotal>\n`;
+    xml +=   `<iva>${iva.toFixed(2)}</iva>\n`;
+    xml +=   `<total>${total.toFixed(2)}</total>\n`;
+    xml +=   `<tienda>Gracias por tu compra en ChinoSneakers</tienda>\n`;
+  
+    xml += '</compra>';
+    
+    // Limpiar el carrito tras la compra
+    this.limpiarCarrito();
+    
+    return xml;
+  }
 
-        // Añadir subtotal, IVA y total al XML
-        const subtotal = this.calcularSubtotal();
-        const iva = this.calcularIVA();
-        const total = this.calcularTotal();
+  // Guardar el carrito en localStorage
+  private guardarCarrito() {
+    localStorage.setItem('carrito', JSON.stringify(this.carrito));
+  }
 
-        xml += ` <tienda>Gracias por comprar en ChinoSneakers</tienda>\n`;
-        xml += ` <subtotal>${subtotal.toFixed(2)}</subtotal>\n`;
-        xml += ` <iva>${iva.toFixed(2)}</iva>\n`;
-        xml += ` <total>${total.toFixed(2)}</total>\n`;
+  // Limpiar el carrito después de la compra
+  private limpiarCarrito() {
+    this.carrito = [];
+    localStorage.removeItem('carrito');
+  }
 
-        xml += '</recibo>';
-        return xml;
-    }
+  
 }

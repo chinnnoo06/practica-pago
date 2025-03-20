@@ -11,6 +11,8 @@
                     <div class="producto-info">
                         <span class="producto-nombre">{{ producto.nombre }}</span>
                         <span class="producto-precio">${{ producto.precio }}</span>
+                        <!-- Mostrar cantidad -->
+                        <span class="producto-cantidad">Cantidad: {{ producto.cantidad }}</span>
                     </div>
                     <button class="eliminar-button" (click)="eliminarProducto(i)">Eliminar</button>
                 </li>
@@ -40,6 +42,4 @@
             <button class="descargar-button" (click)="descargarXML()">Descargar XML</button>
         </div>
     </div>
- 
-    
 </div>

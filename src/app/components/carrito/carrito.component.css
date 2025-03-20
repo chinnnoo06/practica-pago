@@ -1,10 +1,5 @@
 /* Contenedor principal con mejor estructura */
-p,
-span,
-h2,
-h3{
-    font-family: sans-serif;
-}
+
 .carrito-container {
     max-width: 900px;
     margin: 2rem auto;
