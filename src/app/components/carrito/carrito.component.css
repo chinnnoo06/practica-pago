@@ -75,15 +75,42 @@
 .producto-nombre {
     font-weight: 500;
     font-size: 1.1rem;
-    margin-bottom: 0.3rem;
+}
+
+.producto-cantidad{
+    margin-top: 0.5rem;
 }
 
 .producto-precio {
+    margin-top: 0.5rem;
     font-weight: 600;
     color: #555;
 }
 
 /* Botones mejorados */
+.cantidad-controls {
+margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cantidad-controls button {
+    background-color: #202123;
+    color: white;
+    border: none;
+    width: 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: 500;
+    font-size: 1rem;
+}
+.cantidad-controls button:hover{
+    background-color: #aeb2b7;
+    color: #202123;
+}
+
 .eliminar-button {
     background-color: #dc3545;
     color: white;
@@ -168,3 +195,35 @@
     font-family: monospace;
     font-size: 0.9rem;
 }
+
+.contenedor-btn-recibo{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* carrito.component.css */
+.botones-pago {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  .recibo-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .recibo-button:hover {
+    background-color: #45a049;
+  }
+  
+  .paypal-button {
+    width: 150px; /* Ajusta según necesites */
+  }

@@ -48,7 +48,7 @@ export class CarritoService {
 
   // Calcular el subtotal del carrito
   calcularSubtotal(): number {
-    return this.carrito.reduce((total, producto) => total + producto.precio, 0);
+    return this.carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
   }
 
   // Calcular el IVA
@@ -61,42 +61,39 @@ export class CarritoService {
     return this.calcularSubtotal() + this.calcularIVA();
   }
 
-  // Generar el XML del recibo
+  // En carrito.service.ts
   generarXML(): string {
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<compra>\n';
-    
-    // Añadir productos al XML utilizando la cantidad real
+      
     this.carrito.forEach((producto) => {
       xml +=   `<producto id="${producto.id}" cantidad="${producto.cantidad}">\n`;
       xml +=     `<nombre>${producto.nombre}</nombre>\n`;
       xml +=     `<precio>${producto.precio}</precio>\n`;
       xml +=   `</producto>\n`;
     });
-  
+    
     const subtotal = this.calcularSubtotal();
     const iva = this.calcularIVA();
     const total = this.calcularTotal();
-  
+    
     xml +=   `<subtotal>${subtotal.toFixed(2)}</subtotal>\n`;
     xml +=   `<iva>${iva.toFixed(2)}</iva>\n`;
     xml +=   `<total>${total.toFixed(2)}</total>\n`;
     xml +=   `<tienda>Gracias por tu compra en ChinoSneakers</tienda>\n`;
-  
+    
     xml += '</compra>';
-    
-    // Limpiar el carrito tras la compra
-    this.limpiarCarrito();
-    
+      
+    // No limpies el carrito aquí, déjalo para después del pago
     return xml;
   }
-
   // Guardar el carrito en localStorage
   private guardarCarrito() {
     localStorage.setItem('carrito', JSON.stringify(this.carrito));
   }
 
-  // Limpiar el carrito después de la compra
-  private limpiarCarrito() {
+
+  // En carrito.service.ts
+  limpiarCarrito() {
     this.carrito = [];
     localStorage.removeItem('carrito');
   }
