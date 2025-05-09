@@ -37,73 +37,47 @@ export class CarritoComponent implements AfterViewInit, OnDestroy {
   }
 
   private loadPayPalButton() {
-    console.log('Intentando cargar botón PayPal...');
-    
-    const container = document.getElementById('paypal-button-container');
-    if (!container) {
-      console.error('Contenedor PayPal no encontrado');
-      return;
-    }
-  
-    console.log('Contenedor encontrado:', container);
-    container.innerHTML = '';
-  
-    if (typeof paypal === 'undefined') {
-      console.error('PayPal SDK no está disponible');
-      return;
-    }
-  
-    console.log('PayPal SDK está disponible:', paypal);
+    // ... (código anterior igual)
   
     try {
-      // Variable para almacenar los detalles del pago
       let paymentDetails: any = null;
+      let totalPago = 0; // Variable para guardar el total
   
       this.paypalButton = paypal.Buttons({
         style: {
           shape: 'rect',
           color: 'gold',
-          layout: 'vertical',
+          layout: 'horizontal',
           label: 'paypal',
           height: 30
         },
         createOrder: (data: any, actions: any) => {
-          console.log('Creando orden con total:', this.total);
+          totalPago = this.total; // Guardamos el total actual
           return actions.order.create({
             purchase_units: [{
               amount: {
-                value: this.total.toFixed(2),
+                value: totalPago.toFixed(2), // Usamos el total guardado
                 currency_code: 'USD'
               }
             }]
           });
         },
         onApprove: (data: any, actions: any) => {
-          console.log('Pago aprobado:', data);
           return actions.order.capture().then((details: any) => {
-            // Guardamos los detalles del pago para usarlos después
             paymentDetails = details;
-            
-            // 1. Limpiar el carrito
             this.carritoService.limpiarCarrito();
-            
-            // 2. Actualizar el estado del componente
             this.actualizarCarrito();
           });
         },
         onError: (err: any) => {
-          console.error('Error en PayPal:', err);
           paymentDetails = { error: err };
         },
         onCancel: (data: any) => {
-          console.log('Pago cancelado:', data);
           paymentDetails = { cancelled: true };
         },
         onClose: () => {
-          console.log('Modal de PayPal cerrada');
-          // Mostramos la alerta solo cuando la modal se cierra
           if (paymentDetails && !paymentDetails.error && !paymentDetails.cancelled) {
-            alert(`¡Pago completado con éxito! Gracias por tu compra, ${paymentDetails.payer.name.given_name}`);
+            alert(`✅ Pago completado!\n\nGracias por tu compra ${paymentDetails.payer.name.given_name}\n\nTotal: $${totalPago.toFixed(2)}`); // Usamos el total guardado
             this.router.navigate(['/productos']);
           } else if (paymentDetails?.error) {
             alert('Error en el pago: ' + paymentDetails.error.message);
@@ -111,38 +85,27 @@ export class CarritoComponent implements AfterViewInit, OnDestroy {
         }
       });
   
-      console.log('Botón PayPal creado:', this.paypalButton);
-  
       if (this.paypalButton.isEligible()) {
-        console.log('El botón es elegible, renderizando...');
-        this.paypalButton.render('#paypal-button-container').then(() => {
-          console.log('Botón renderizado con éxito');
-        });
-      } else {
-        console.warn('El botón PayPal no es elegible');
-        container.innerHTML = '<p>PayPal no disponible</p>';
+        this.paypalButton.render('#paypal-button-container');
       }
     } catch (error) {
       console.error('Error al crear botón PayPal:', error);
-      container.innerHTML = '<p>Error al cargar PayPal</p>';
     }
   }
-
-generarXML() {
-  this.recibo = this.carritoService.generarXML();
-  this.actualizarCarrito();
+  generarXML() {
+    this.recibo = this.carritoService.generarXML();
+    this.actualizarCarrito();
+    
+    console.log('Total actual:', this.total);
+    
+    if (this.total <= 0) {
+      console.warn('El total debe ser mayor que 0 para mostrar PayPal');
+      return;
+    }
   
-  console.log('Total actual:', this.total);
-  
-  if (this.total <= 0) {
-    console.warn('El total debe ser mayor que 0 para mostrar PayPal');
-    return;
-  }
-
-  setTimeout(() => {
+    // Cargar PayPal inmediatamente sin setTimeout
     this.loadPayPalButton();
-  }, 0);
-}
+  }
 
   // Resto de tus métodos permanecen igual...
   eliminarProducto(index: number) {

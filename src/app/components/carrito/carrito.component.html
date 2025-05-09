@@ -52,7 +52,7 @@
       <pre class="recibo-contenido">{{ recibo }}</pre>
       <div class="contenedor-btn-recibo">
         <button class="descargar-button" (click)="descargarXML()">Descargar XML</button>
-        <div id="paypal-button-container" class="paypal-button"></div>
+        <div id="paypal-button-container" *ngIf="total > 0" class="paypal-button"></div>
       </div>
 
     </div>
